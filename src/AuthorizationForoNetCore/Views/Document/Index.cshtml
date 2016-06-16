@@ -1,0 +1,16 @@
+﻿@using Microsoft.AspNetCore.Authorization
+@model IEnumerable<AuthorizationForoNetCore.Modles.Document>
+@inject IAuthorizationService AuthorizationService
+@using AuthorizationForoNetCore.Policy
+<h1>文档列表</h1>
+@{
+    var requirement = new EditRequirement();
+    foreach (var document in Model)
+    {
+        if (await AuthorizationService.AuthorizeAsync(User, document, requirement)) {
+    <p>
+        @Html.ActionLink("文档 #" + document.Id, "编辑", new { id = document.Id })
+    </p>
+    }
+}
+}
